@@ -10,7 +10,7 @@ class RunManager:
         isTherePNG = False
         filelist = os.listdir(imageFolder)
         for file in filelist:
-            if file.endswith(".png"):
+            if file.endswith(".png") or file.endswith(".jpg") or file.endswith(".jpeg"):
                 isTherePNG = True
                 break
         
