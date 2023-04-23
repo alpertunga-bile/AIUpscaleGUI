@@ -8,6 +8,7 @@ from RunManager import RunManager
 
 class GUI:
     def __init__(self):
+        self.inputDirectory = os.getcwd()
         self.window = tk.Tk(baseName="Upscale with Real ESRGAN")
         self.window.geometry("500x500")
 
@@ -108,8 +109,8 @@ class GUI:
         initializeButton.pack(pady=30)
 
     def ChangeInputDirectory(self):
-        self.inputDirectory = filedialog.askdirectory(mustexist=True, initialdir=os.getcwd())
-        self.inputDirectoryLabel.config(text=self.inputDirectory)
+        self.inputDirectory = filedialog.askdirectory(initialdir=self.inputDirectory)
+        self.inputDirectoryLabel.config(text=f"{self.inputDirectory}")
         self.runManager.GetImageFolder(self.inputDirectory)
 
     def ChangeOutputDirectory(self):

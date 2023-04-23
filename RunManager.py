@@ -7,6 +7,17 @@ class RunManager:
             messagebox.showinfo(title="WARNING", message=f"There is no {imageFolder} file")
             exit(-1)
 
+        isTherePNG = False
+        filelist = os.listdir(imageFolder)
+        for file in filelist:
+            if file.endswith(".png"):
+                isTherePNG = True
+                break
+        
+        if isTherePNG:
+            self.imageFolders.append(imageFolder)
+            return
+        
         self.imageFolders = os.listdir(imageFolder)
         for i in range(0, len(self.imageFolders)):
             self.imageFolders[i] = os.path.join(imageFolder, self.imageFolders[i])
@@ -31,6 +42,8 @@ class RunManager:
         return finalCommand
     
     def WriteToBat(self):
+        if os.exists("run.bat"):
+            os.remove("run.bat")
         file = open("run.bat", "w")
         file.write(self.GetCommandString())
         file.close()
@@ -43,7 +56,7 @@ class RunManager:
     python_exe = "call Real-ESRGAN\\env\\Scripts\\python.exe"
     activate_env_command = "call .\Real-ESRGAN\\env\\Scripts\\activate"
     deactivate_env_command = "call deactivate"
-    imageFolders = None
+    imageFolders = []
     outputFolder = f"{os.getcwd}\\upscaled"
     modelName = None
     scale = "4"
