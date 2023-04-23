@@ -22,7 +22,7 @@
 - After selecting them, press ***Initialize*** button and wait for ***DONE!!!*** text to appear under the button or in terminal.
 
 ### Folder Selection Note
-- You can choose one folder that includes images or you can choose one folder that includes folders that includes images (Hmm?)
+- You can choose one folder that includes images or you can choose one folder that includes folders that includes images (Hmm?).
 
 #### Option 1
 <pre>
@@ -41,6 +41,8 @@ Folder
            |----> image3
            |----> image4
 </pre>
+
+- You can not choose multiple directories. You have to use the Option 2.
 
 ### Model Names And Attributes 
 - Currently RealESRGAN_x4plus, RealESRNet_x4plus, RealESRGAN_x4plus_anime_6B, RealESRGAN_x2plus, realesr-general-x4v3 models can be used. You dont have to download them, script will handle this.
