@@ -132,6 +132,7 @@ class GUI:
         self.runManager.faceEnhance = self.faceCombobox.get()
         self.runManager.Run()
         self.initializeInfoLabel.config(text="DONE!!!")
+        print("DONE!!!")
 
     def StartUp(self):
         if os.path.exists("Real-ESRGAN"):
@@ -142,12 +143,32 @@ class GUI:
         streamdata = process.communicate()[0]
 
         if process.returncode != 0:
-            messagebox.showinfo(title="WARNING", message="There is no Git on your computer or not included in PATH variable, please install it or add to PATH variable and try again")
+            messagebox.showerror(message="There is no Git on your computer or not included in PATH variable, please install it or add to PATH variable and try again")
             exit(-1)
 
+        self.startUpInformationlabel.config(text="Cloning repository ...")
+        print("Cloning repository ...")
+        process = subprocess.Popen("git clone https://github.com/xinntao/Real-ESRGAN.git", stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+        self.WaitUntilFinishSubprocess(process)
+
         self.startUpInformationlabel.config(text="Installing required packages ...")
-        os.system("startup.bat")  
-        self.startUpInformationlabel.config(text="Installation is complete!!! You can continue")    
+        print("Installing required packages ...")
+        command = ""
+        command += "py -m venv Real-ESRGAN\env & "
+        command += ".\Real-ESRGAN\env\Scripts\\activate & "
+        command += ".\Real-ESRGAN\env\Scripts\pip.exe install basicsr facexlib gfpgan & "
+        command += ".\Real-ESRGAN\env\Scripts\pip.exe install -r Real-ESRGAN\\requirements.txt & "
+        command += "cd Real-ESRGAN & call .\env\Scripts\python.exe setup.py develop & cd .. & deactivate"
+        os.system(command)
+        self.startUpInformationlabel.config(text="Installation is complete!!! You can continue")
+        os.system('cls' if os.name=='nt' else 'clear')
+        print("Installation is complete!!! You can continue")
+
+    def WaitUntilFinishSubprocess(self, process):
+        poll = process.poll()
+        while poll is None:
+            poll = process.poll()
+        print("Finished process")
 
     def Loop(self):
         self.window.mainloop()

@@ -37,21 +37,15 @@ class RunManager:
     def GetCommandString(self):
         finalCommand = ""
         for command in self.commands:
-            finalCommand = finalCommand + command + " &\n"
+            finalCommand = finalCommand + command + " & "
         finalCommand = finalCommand[:-3]
         return finalCommand
-    
-    def WriteToBat(self):
-        if os.path.exists("run.bat"):
-            os.remove("run.bat")
-        file = open("run.bat", "w")
-        file.write(self.GetCommandString())
-        file.close()
 
     def Run(self):
         self.AddCommands()
-        self.WriteToBat()
-        os.system("run.bat")
+        os.system('cls' if os.name=='nt' else 'clear')
+        os.system(self.GetCommandString())
+        os.system('cls' if os.name=='nt' else 'clear')
 
     python_exe = "call Real-ESRGAN\\env\\Scripts\\python.exe"
     activate_env_command = "call .\Real-ESRGAN\\env\\Scripts\\activate"
