@@ -26,18 +26,19 @@
 
 #### Option 1
 <pre>
-Folder
+Folder1
   |----> image1
   |----> image2
 </pre>
 
 #### Option 2
 <pre>
-Folder
-  |----> Folder
+Folder1
+  |----> Folder2
   |        |----> image1
   |        |----> image2
-  |----> Folder
+  |
+  |----> Folder3
            |----> image3
            |----> image4
 </pre>
