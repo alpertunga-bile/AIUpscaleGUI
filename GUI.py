@@ -112,7 +112,11 @@ class GUI:
 
         initializeButton.pack(pady=30)
 
+        self.initializeInfoLabel = tk.Label(text="")
+        self.initializeInfoLabel.pack()
+
     def ChangeInputDirectory(self):
+        self.initializeInfoLabel.config(text="")
         self.inputDirectory = filedialog.askdirectory(initialdir=self.inputDirectory)
         self.inputDirectoryLabel.config(text=f"{self.inputDirectory}")
         self.runManager.GetImageFolder(self.inputDirectory)
@@ -127,6 +131,7 @@ class GUI:
         self.runManager.scale = self.scaleCombobox.get()
         self.runManager.faceEnhance = self.faceCombobox.get()
         self.runManager.Run()
+        self.initializeInfoLabel.config(text="DONE!!!")
 
     def StartUp(self):
         if os.path.exists("Real-ESRGAN"):
@@ -134,15 +139,15 @@ class GUI:
             return
 
         process = subprocess.Popen("git --version", stdout=subprocess.PIPE)
+        streamdata = process.communicate()[0]
 
         if process.returncode != 0:
             messagebox.showinfo(title="WARNING", message="There is no Git on your computer or not included in PATH variable, please install it or add to PATH variable and try again")
             exit(-1)
 
-        subprocess.Popen("git clone https://github.com/xinntao/Real-ESRGAN.git", stdout=subprocess.PIPE)
-
         self.startUpInformationlabel.config(text="Installing required packages ...")
-        os.system("startup.bat")      
+        os.system("startup.bat")  
+        self.startUpInformationlabel.config(text="Installation is complete!!! You can continue")    
 
     def Loop(self):
         self.window.mainloop()
@@ -153,6 +158,7 @@ class GUI:
     initializeFrame = None
     inputDirectoryLabel = None
     outputDirectoryLabel = None
+    initializeInfoLabel = None
     inputDirectory = None
     outputDirectory = None
     modelCombobox = None
