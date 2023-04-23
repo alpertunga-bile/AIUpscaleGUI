@@ -25,13 +25,22 @@
 - You can choose one folder that includes images or you can choose one folder that includes folders that includes images (Hmm?)
 
 #### Option 1
-- Folder
-  </br></br></br>|_____ image1
+<pre>
+Folder
+  |----> image1
+  |----> image2
+</pre>
 
 #### Option 2
-- Folder
-  </br></br></br>|_____ Folder
-  </br></br></br></br></br></br></br></br></br>|_____ image1
+<pre>
+Folder
+  |----> Folder
+  |        |----> image1
+  |        |----> image2
+  |----> Folder
+           |----> image3
+           |----> image4
+</pre>
 
 ### Model Names And Attributes 
 - Currently RealESRGAN_x4plus, RealESRNet_x4plus, RealESRGAN_x4plus_anime_6B, RealESRGAN_x2plus, realesr-general-x4v3 models can be used. You dont have to download them, script will handle this.
