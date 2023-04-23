@@ -4,8 +4,7 @@
 - I am using Automatic111 WebUI for Stable Diffusion. Because of my low VRAM I can not upscale my images so I made a GUI for upscaling my outputs. As I can see from the options in WebUI, it is using Real-ESRGAN as default.
 
 ## Requirements
-- Currently Windows os is supported.
-- Git has to be in PATH.
+- Git has to be in PATH variable.
 - Tested with Python 3.10.6 and used Tkinter for GUI. As a note for Python 3.10.6 version Tkinter comes as default library. You can easily test it with these commands:
 
 ### Check Tkinter Module
@@ -14,19 +13,16 @@
 - Write ```exit()``` command and press Enter button to exit.
 
 ## Usage
+- [x] In ***Startup*** and ***Initialize*** parts, check the progress on terminal. GUI will be freeze that time.
 - Open terminal or cmd and clone the repository and get into folder ```git clone https://github.com/alpertunga-bile/AIUpscaleGUI.git & cd AIUpscaleGUI```
 - Open the GUI with ```python main.py``` command.
-- Press the ***Startup*** button. If you do not have the [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) repository it is going to handled by GUI. Wait for ***Installation is complete!!! You can continue*** text above the button. You can check the process from your terminal or cmd. 
+- Press the ***Startup*** button. If you do not have the [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) repository it is handled by GUI. Wait for ***Installation is complete!!! You can continue*** text above the button or look to terminal. You can check the process from your terminal. 
 - After the installation progress, choose your input and output directories.
 - Then select which model and attributes you want to use.
-- After selecting them, press ***Initialize*** button and wait for ***DONE!!!*** text to appear under the button.
+- After selecting them, press ***Initialize*** button and wait for ***DONE!!!*** text to appear under the button or in terminal.
 
 ### Model Names And Attributes 
-- Currently RealESRGAN_x4plus,
-            RealESRNet_x4plus,
-            RealESRGAN_x4plus_anime_6B,
-            RealESRGAN_x2plus,
-            realesr-general-x4v3 models can be used. You dont have to download them, script will handle this.
+- Currently RealESRGAN_x4plus, RealESRNet_x4plus, RealESRGAN_x4plus_anime_6B, RealESRGAN_x2plus, realesr-general-x4v3 models can be used. You dont have to download them, script will handle this.
 - x2, x3 and x4 scales are supported.
 - You can open and close face enhancement feature.
 
