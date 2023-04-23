@@ -42,7 +42,7 @@ class RunManager:
         return finalCommand
     
     def WriteToBat(self):
-        if os.exists("run.bat"):
+        if os.path.exists("run.bat"):
             os.remove("run.bat")
         file = open("run.bat", "w")
         file.write(self.GetCommandString())

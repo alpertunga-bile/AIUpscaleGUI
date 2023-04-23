@@ -56,7 +56,11 @@ class GUI:
         modelNameLabel = tk.Label(self.initializeFrame, text="Model Name")
 
         self.modelCombobox['values'] = (
-            'RealESRGAN_x4plus'
+            'RealESRGAN_x4plus',
+            'RealESRNet_x4plus',
+            'RealESRGAN_x4plus_anime_6B',
+            'RealESRGAN_x2plus',
+            'realesr-general-x4v3'
         )
 
         self.modelCombobox.state(["readonly"])
