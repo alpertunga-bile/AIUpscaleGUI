@@ -13,10 +13,10 @@
 - Write ```exit()``` command and press Enter button to exit.
 
 ## Usage
-- [x] In ***Startup*** and ***Initialize*** parts, check the progress on terminal. GUI will be freeze that time.
+- [x] In ***Startup*** and ***Initialize*** parts, check the progress on terminal. GUI will be freeze in that time.
 - Open terminal or cmd and clone the repository and get into folder ```git clone https://github.com/alpertunga-bile/AIUpscaleGUI.git & cd AIUpscaleGUI```
 - Open the GUI with ```python main.py``` command.
-- Press the ***Startup*** button. If you do not have the [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) repository it is handled by GUI. Wait for ***Installation is complete!!! You can continue*** text above the button or look to terminal. You can check the process from your terminal. 
+- Press the ***Startup*** button. If you do not have the [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) repository it is handled by application. Application is creating virtual environment inside the repo's folder and installing modules to it. So python modules are going to be installed on virtual environment not to the default one. Wait for ***Installation is complete!!! You can continue*** text above the button or look to the terminal. You can check the process from your terminal.
 - After the installation progress, choose your input and output directories.
 - Then select which model and attributes you want to use.
 - After selecting them, press ***Initialize*** button and wait for ***DONE!!!*** text to appear under the button or in terminal.
