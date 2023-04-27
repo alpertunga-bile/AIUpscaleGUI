@@ -22,7 +22,7 @@
 - After selecting them, press ***Initialize*** button and wait for ***DONE!!!*** text to appear under the button or in terminal.
 
 ### Folder Selection Note
-- You can choose one folder that includes images or you can choose one folder that includes folders that includes images (Hmm?).
+- You can choose one folder that includes images or you can choose one folder that includes folders that include images (Hmm?).
 
 #### Option 1
 <pre>
