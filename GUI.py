@@ -158,6 +158,7 @@ class GUI:
         self.runManager.scale = f"{int(self.scaleSlider.get())}"
         self.runManager.faceEnhance = self.faceCheckbox.get()
         self.runManager.fp32 = self.fp32Checkbox.get()
+        self.initializeInfoLabel.configure(text="Upscaling ...")
         self.runManager.Run()
         self.initializeInfoLabel.configure(text="DONE!!!")
         print("DONE!!!")
@@ -186,7 +187,7 @@ class GUI:
         command += ".\Real-ESRGAN\env\Scripts\pip.exe install -r Real-ESRGAN\\requirements.txt && "
         command += "cd Real-ESRGAN && call .\env\Scripts\python.exe setup.py develop && cd .. && deactivate"
         process = call(command, shell=True)
-        self.startUpInformationlabel.configure(text="Installation is complete!!! You can continue")
+        self.startUpInformationlabel.configure(text="Installation is completed!!! You can continue")
         call('cls' if os.name=='nt' else 'clear', shell=True)
         print("Installation is completed!!! You can continue")
 

@@ -42,7 +42,7 @@ class RunManager:
     def GetCommandString(self):
         finalCommand = ""
         for command in self.commands:
-            finalCommand = finalCommand + command + " & "
+            finalCommand = finalCommand + command + " && "
         finalCommand = finalCommand[:-3]
         return finalCommand
 
