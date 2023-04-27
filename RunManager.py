@@ -1,5 +1,6 @@
 import os
 from tkinter import messagebox
+from subprocess import call
 
 class RunManager:
     def GetImageFolder(self, imageFolder):
@@ -47,9 +48,9 @@ class RunManager:
 
     def Run(self):
         self.AddCommands()
-        os.system('cls' if os.name=='nt' else 'clear')
-        os.system(self.GetCommandString())
-        os.system('cls' if os.name=='nt' else 'clear')
+        call('cls' if os.name=='nt' else 'clear', shell=True)
+        call(self.GetCommandString(), shell=True)
+        call('cls' if os.name=='nt' else 'clear', shell=True)
 
     python_exe = "call Real-ESRGAN\\env\\Scripts\\python.exe"
     activate_env_command = "call .\Real-ESRGAN\\env\\Scripts\\activate"
