@@ -1,178 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import filedialog
-from tkinter import ttk
+from subprocess import call, DEVNULL
+import customtkinter as ctk
+import threading
 import subprocess
 import os
 from RunManager import RunManager
 
 class GUI:
-    def __init__(self):
-        self.inputDirectory = os.getcwd()
-        self.window = tk.Tk(baseName="Upscale with Real ESRGAN")
-        self.window.geometry("500x500")
-
-        """
-        StartUp Frame Widgets
-        """
-        self.startUpFrame = tk.Frame()
-        self.startUpInformationlabel = tk.Label(master=self.startUpFrame, text='')
-        startupButton = tk.Button(
-            master=self.startUpFrame,
-            text="Startup",
-            command=self.StartUp
-        )
-
-        self.startUpInformationlabel.pack(side="top")
-        startupButton.pack(pady=20)
-        self.startUpFrame.pack(pady=50)
-
-        """
-        Initialize Frame Widgets
-        """
-        self.initializeFrame = tk.Frame()
-        self.inputDirectoryLabel = tk.Label(master=self.initializeFrame, text=f'{os.getcwd()}\input')
-        self.outputDirectoryLabel = tk.Label(master=self.initializeFrame, text=f'{os.getcwd()}\output')
-        
-        inputSelectButton = tk.Button(
-            master = self.initializeFrame,
-            text="Choose Directory",
-            command=self.ChangeInputDirectory
-        )
-
-        outputSelectButton = tk.Button(
-            master = self.initializeFrame,
-            text="Choose Directory",
-            command=self.ChangeOutputDirectory
-        )
-
-        modelString = tk.StringVar()
-        self.modelCombobox = ttk.Combobox(
-            self.initializeFrame,
-            width=30,
-            textvariable= modelString
-        )
-
-        modelNameLabel = tk.Label(self.initializeFrame, text="Model Name")
-
-        self.modelCombobox['values'] = (
-            'RealESRGAN_x4plus',
-            'RealESRNet_x4plus',
-            'RealESRGAN_x4plus_anime_6B',
-            'RealESRGAN_x2plus',
-            'realesr-general-x4v3'
-        )
-
-        self.modelCombobox.state(["readonly"])
-
-        scaleLabel = tk.Label(self.initializeFrame, text="Scale")
-
-        scaleString = tk.StringVar()
-        self.scaleCombobox = ttk.Combobox(
-            self.initializeFrame,
-            width=7,
-            textvariable=scaleString
-        )
-
-        self.scaleCombobox['values'] = (
-            '2', '3', '4'
-        )
-
-        self.scaleCombobox.state(["readonly"])
-
-        faceLabel = tk.Label(self.initializeFrame, text="Face Enhancement")
-
-        faceString = tk.StringVar()
-        self.faceCombobox = ttk.Combobox(
-            self.initializeFrame,
-            width=5,
-            textvariable=faceString
-        )
-
-        self.faceCombobox['values'] = ("Yes", "No")
-        self.faceCombobox.state(["readonly"])
-
-        self.inputDirectoryLabel.grid(column=0, row=0, padx=(0, 50), ipady=5)
-        inputSelectButton.grid(column=1, row=0)
-        self.outputDirectoryLabel.grid(column=0, row=1, padx=(0, 50), ipady=5)
-        outputSelectButton.grid(column=1, row=1)
-        modelNameLabel.grid(column=0, row=2, padx=(0, 50), ipady=5)
-        self.modelCombobox.grid(column=1, row=2)
-        scaleLabel.grid(column=0, row=3, padx=(0, 50), ipady=5)
-        self.scaleCombobox.grid(column=1, row=3)
-        faceLabel.grid(column=0, row=4, padx=(0, 50), ipady=5)
-        self.faceCombobox.grid(column=1, row=4)
-
-        self.initializeFrame.pack()
-
-        initializeButton = tk.Button(
-            text="Initialize",
-            command=self.Initialize
-        )
-
-        initializeButton.pack(pady=30)
-
-        self.initializeInfoLabel = tk.Label(text="")
-        self.initializeInfoLabel.pack()
-
-    def ChangeInputDirectory(self):
-        self.initializeInfoLabel.config(text="")
-        self.inputDirectory = filedialog.askdirectory(initialdir=self.inputDirectory)
-        self.inputDirectoryLabel.config(text=f"{self.inputDirectory}")
-        self.runManager.GetImageFolder(self.inputDirectory)
-
-    def ChangeOutputDirectory(self):
-        self.outputDirectory = filedialog.askdirectory(mustexist=True, initialdir=os.getcwd())
-        self.outputDirectoryLabel.config(text=self.outputDirectory)
-        self.runManager.outputFolder = self.outputDirectory
-
-    def Initialize(self):
-        self.runManager.modelName = self.modelCombobox.get()
-        self.runManager.scale = self.scaleCombobox.get()
-        self.runManager.faceEnhance = self.faceCombobox.get()
-        self.runManager.Run()
-        self.initializeInfoLabel.config(text="DONE!!!")
-        print("DONE!!!")
-
-    def StartUp(self):
-        if os.path.exists("Real-ESRGAN"):
-            self.startUpInformationlabel.config(text="Real-ESRGAN repo is already installed")
-            return
-
-        process = subprocess.Popen("git --version", stdout=subprocess.PIPE)
-        streamdata = process.communicate()[0]
-
-        if process.returncode != 0:
-            messagebox.showerror(message="There is no Git on your computer or not included in PATH variable, please install it or add to PATH variable and try again")
-            exit(-1)
-
-        self.startUpInformationlabel.config(text="Cloning repository ...")
-        print("Cloning repository ...")
-        process = subprocess.Popen("git clone https://github.com/xinntao/Real-ESRGAN.git", stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-        self.WaitUntilFinishSubprocess(process)
-
-        self.startUpInformationlabel.config(text="Installing required packages ...")
-        print("Installing required packages ...")
-        command = ""
-        command += "py -m venv Real-ESRGAN\env & "
-        command += ".\Real-ESRGAN\env\Scripts\\activate & "
-        command += ".\Real-ESRGAN\env\Scripts\pip.exe install basicsr facexlib gfpgan & "
-        command += ".\Real-ESRGAN\env\Scripts\pip.exe install -r Real-ESRGAN\\requirements.txt & "
-        command += "cd Real-ESRGAN & call .\env\Scripts\python.exe setup.py develop & cd .. & deactivate"
-        os.system(command)
-        self.startUpInformationlabel.config(text="Installation is complete!!! You can continue")
-        os.system('cls' if os.name=='nt' else 'clear')
-        print("Installation is complete!!! You can continue")
-
-    def WaitUntilFinishSubprocess(self, process):
-        poll = process.poll()
-        while poll is None:
-            poll = process.poll()
-        print("Finished process")
-
-    def Loop(self):
-        self.window.mainloop()
-
     startUpInformationlabel = None
     startUpFrame = None
     
@@ -183,8 +19,188 @@ class GUI:
     inputDirectory = None
     outputDirectory = None
     modelCombobox = None
-    scaleCombobox = None
-    faceCombobox = None
+
+    scaleSlider = None
+    scaleLabel = None
+    faceCheckbox = None
+    fp32Checkbox = None
 
     window = None
     runManager = RunManager()
+
+    def __init__(self):
+        self.inputDirectory = os.getcwd()
+        ctk.set_appearance_mode("dark")
+        ctk.set_default_color_theme("green")
+        self.window = ctk.CTk()
+        self.window.title("Upscale with Real ESRGAN")
+        self.window.geometry("700x500")
+
+        """
+        StartUp Frame Widgets
+        """
+        self.startUpFrame = ctk.CTkFrame(master=self.window)
+        self.startUpInformationlabel = ctk.CTkLabel(master=self.startUpFrame, text='')
+        startupButton = ctk.CTkButton(
+            master=self.startUpFrame,
+            text="Startup",
+            command=self.StartTheStartup
+        )
+
+        self.startUpInformationlabel.pack(side="top")
+        startupButton.pack()
+        self.startUpFrame.pack(pady=25)
+
+        """
+        Initialize Frame Widgets
+        """
+        self.initializeFrame = ctk.CTkFrame(master=self.window)
+        self.inputDirectoryLabel = ctk.CTkLabel(master=self.initializeFrame, text=f'{os.getcwd()}\input')
+        self.outputDirectoryLabel = ctk.CTkLabel(master=self.initializeFrame, text=f'{os.getcwd()}\output')
+        
+        inputSelectButton = ctk.CTkButton(
+            master = self.initializeFrame,
+            text="Choose Directory",
+            command=self.ChangeInputDirectory
+        )
+
+        outputSelectButton = ctk.CTkButton(
+            master = self.initializeFrame,
+            text="Choose Directory",
+            command=self.ChangeOutputDirectory
+        )
+
+        modelString = tk.StringVar()
+        self.modelCombobox = ctk.CTkComboBox(
+            self.initializeFrame,
+            width=300,
+            variable= modelString,
+            state='readonly',
+            values=['RealESRGAN_x4plus',
+            'RealESRNet_x4plus',
+            'RealESRGAN_x4plus_anime_6B',
+            'RealESRGAN_x2plus',
+            'realesr-general-x4v3']
+        )
+
+        modelNameLabel = ctk.CTkLabel(self.initializeFrame, text="Model Name")
+
+        self.scaleLabel = ctk.CTkLabel(self.initializeFrame, text="Scale : 3")
+        
+        self.scaleSlider = ctk.CTkSlider(
+            master=self.initializeFrame,
+            width=200,
+            from_=2,
+            to=4,
+            number_of_steps=2,
+            command=self.SliderEvent
+        )
+
+        faceLabel = ctk.CTkLabel(self.initializeFrame, text="Face Enhancement")
+
+        self.faceCheckbox = ctk.CTkCheckBox(
+            master=self.initializeFrame,
+            text="",
+            onvalue=1,
+            offvalue=0
+        )
+
+        fp32Label = ctk.CTkLabel(self.initializeFrame, text="FP32")
+        self.fp32Checkbox = ctk.CTkCheckBox(
+            master=self.initializeFrame,
+            text="",
+            onvalue=1,
+            offvalue=0
+        )
+
+        self.inputDirectoryLabel.grid(column=0, row=0, padx=(0, 50), ipady=5)
+        inputSelectButton.grid(column=1, row=0)
+        self.outputDirectoryLabel.grid(column=0, row=1, padx=(0, 50), ipady=5)
+        outputSelectButton.grid(column=1, row=1)
+        modelNameLabel.grid(column=0, row=2, padx=(0, 50), ipady=5)
+        self.modelCombobox.grid(column=1, row=2)
+        self.scaleLabel.grid(column=0, row=3, padx=(0, 50), ipady=5)
+        self.scaleSlider.grid(column=1, row=3)
+        faceLabel.grid(column=0, row=4, padx=(0, 50), ipady=5)
+        self.faceCheckbox.grid(column=1, row=4)
+        fp32Label.grid(column=0, row=5, padx=(0, 50), ipady=5)
+        self.fp32Checkbox.grid(column=1, row=5)
+
+        self.initializeFrame.pack()
+
+        initializeButton = ctk.CTkButton(
+            master=self.window,
+            text="Initialize",
+            command=self.StartInitialize
+        )
+
+        initializeButton.pack(pady=30)
+
+        self.initializeInfoLabel = ctk.CTkLabel(master=self.window, text="")
+        self.initializeInfoLabel.pack()
+
+    def SliderEvent(self, value):
+        self.scaleLabel.configure(text=f"Scale : {int(self.scaleSlider.get())}")
+
+    def ChangeInputDirectory(self):
+        self.initializeInfoLabel.configure(text="")
+        self.inputDirectory = filedialog.askdirectory(initialdir=self.inputDirectory)
+        self.inputDirectoryLabel.configure(text=f"{self.inputDirectory}")
+        self.runManager.GetImageFolder(self.inputDirectory)
+
+    def ChangeOutputDirectory(self):
+        self.outputDirectory = filedialog.askdirectory(mustexist=True, initialdir=os.getcwd())
+        self.outputDirectoryLabel.configure(text=self.outputDirectory)
+        self.runManager.outputFolder = self.outputDirectory
+
+    def Initialize(self):
+        self.runManager.modelName = self.modelCombobox.get()
+        self.runManager.scale = f"{int(self.scaleSlider.get())}"
+        self.runManager.faceEnhance = self.faceCheckbox.get()
+        self.runManager.fp32 = self.fp32Checkbox.get()
+        self.runManager.Run()
+        self.initializeInfoLabel.configure(text="DONE!!!")
+        print("DONE!!!")
+
+    def StartUp(self):
+        if os.path.exists("Real-ESRGAN"):
+            self.startUpInformationlabel.configure(text="Real-ESRGAN repo is already installed")
+            return
+
+        process = subprocess.Popen("git --version", stdout=subprocess.PIPE)
+        streamdata = process.communicate()[0]
+
+        if process.returncode != 0:
+            messagebox.showerror(message="There is no Git on your computer or not included in PATH variable, please install it or add to PATH variable and try again")
+            exit(-1)
+
+        self.startUpInformationlabel.configure(text="Cloning repository ...")
+        print("Cloning repository ...")
+        process = call("git clone https://github.com/xinntao/Real-ESRGAN.git", shell=True)
+        self.startUpInformationlabel.configure(text="Installing required packages ...")
+        print("Installing required packages ...")
+        command = ""
+        command += "py -m venv Real-ESRGAN\env && "
+        command += ".\Real-ESRGAN\env\Scripts\\activate && "
+        command += ".\Real-ESRGAN\env\Scripts\pip.exe install basicsr facexlib gfpgan && "
+        command += ".\Real-ESRGAN\env\Scripts\pip.exe install -r Real-ESRGAN\\requirements.txt && "
+        command += "cd Real-ESRGAN && call .\env\Scripts\python.exe setup.py develop && cd .. && deactivate"
+        process = call(command, shell=True)
+        self.startUpInformationlabel.configure(text="Installation is complete!!! You can continue")
+        call('cls' if os.name=='nt' else 'clear', shell=True)
+        print("Installation is completed!!! You can continue")
+
+    def Loop(self):
+        self.window.mainloop()
+
+    def Refresh(self):
+        self.window.update()
+        self.window.after(1000, self.Refresh)
+
+    def StartTheStartup(self):
+        self.Refresh()
+        threading.Thread(target=self.StartUp).start()
+
+    def StartInitialize(self):
+        self.Refresh()
+        threading.Thread(target=self.Initialize).start()

@@ -24,9 +24,13 @@ class RunManager:
 
     def AddCommands(self):
         start = f'{self.python_exe} Real-ESRGAN\\inference_realesrgan.py -n {self.modelName} -i '
-        end = f"--ext png --fp32 -s {self.scale}"
-        if self.faceEnhance == "Yes":
+        end = f"--ext png -s {self.scale}"
+        
+        if self.faceEnhance == 1:
             end = end + " --face_enhance"
+
+        if self.fp32 == 1:
+            end = end + " --fp32"
         
         for folder in self.imageFolders:
             tempCommand = f'{start} "{folder}" -o "{self.outputFolder}" {end}'
@@ -54,5 +58,6 @@ class RunManager:
     outputFolder = f"{os.getcwd}\\upscaled"
     modelName = None
     scale = "4"
-    faceEnhance = "No"
+    faceEnhance = 0
+    fp32 = 1
     commands = [activate_env_command]
