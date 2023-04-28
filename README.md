@@ -13,7 +13,7 @@
 - Virtual environment automation is added. No need to configure manually. Just run ```python start.py``` command.
 - **Startup** and **Initialize** functions are done in threads so no more freezing.
 - Selection for FP32 feature is added.
-- [x] I do not hide the command outputs because some processes take minutes and it make it difficult to understand what is going on. If there are no errors and application is not terminated, it is fine.
+- [x] I do not hide the command outputs because some processes take minutes and it makes it difficult to understand what is going on. If there are no errors and application is not terminated, it is fine.
 
 <p align="center">
   <img src=https://user-images.githubusercontent.com/76731692/234876288-9a368045-10a5-4455-997c-c0f8553ab9a4.gif alt="animated" />
