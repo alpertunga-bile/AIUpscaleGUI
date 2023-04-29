@@ -70,8 +70,9 @@ Folder1
 - You can select FP32 feature.
 
 ## Examples
+- Prompts are generated with [Prompt Markdown Parser](https://github.com/alpertunga-bile/prompt-markdown-parser) project.
 - RealESRGAN_x4plus model, x4 scale and face enhancement are used.
-- 512x512 images are created with NeverEndingDreamBakedVAE model, model hash is 64b14b6ca5. CodeFormer is used for face restoration. 
+- 512x512 images are created with NeverEndingDreamBakedVAE model, model hash is 64b14b6ca5. CodeFormer is used for face restoration.
 
 512x512                    |  2048x2048
 :-------------------------:|:-------------------------:
