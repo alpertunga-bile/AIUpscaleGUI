@@ -6,6 +6,7 @@
 
 - Using [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) repository for upscaling images. 
 - I am using Automatic111 WebUI for Stable Diffusion. Because of my low VRAM I can not upscale my images so I made a GUI for upscaling my outputs. As I can see from the options in WebUI, it is using Real-ESRGAN as default.
+- I have a another repository about prompts. Briefly you can parse prompts from Markdown files, translate your prompts. You can generate datasets, train your prompt generator and generate prompts with it. You can access the repository [here](https://github.com/alpertunga-bile/prompt-markdown-parser).
 
 ## Updates
 ### Update Date : 27/04/2023
@@ -13,7 +14,7 @@
 - Virtual environment automation is added. No need to configure manually. Just run ```python start.py``` command.
 - **Startup** and **Initialize** functions are done in threads so no more freezing.
 - Selection for FP32 feature is added.
-- [x] I do not hide the command outputs because some processes take minutes and it makes it difficult to understand what is going on. If there are no errors and application is not terminated, it is fine.
+- [x] I did not hide the command outputs because some processes take minutes and it makes it difficult to understand what is going on. If there are no errors and application is not terminated, it is fine.
 
 <p align="center">
   <img src=https://user-images.githubusercontent.com/76731692/234876288-9a368045-10a5-4455-997c-c0f8553ab9a4.gif alt="animated" />
