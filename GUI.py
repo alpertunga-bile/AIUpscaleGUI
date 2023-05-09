@@ -185,7 +185,10 @@ class GUI:
         command += ".\Real-ESRGAN\env\Scripts\\activate && "
         command += ".\Real-ESRGAN\env\Scripts\pip.exe install basicsr facexlib gfpgan && "
         command += ".\Real-ESRGAN\env\Scripts\pip.exe install -r Real-ESRGAN\\requirements.txt && "
-        command += "cd Real-ESRGAN && call .\env\Scripts\python.exe setup.py develop && cd .. && deactivate"
+        command += "cd Real-ESRGAN && call .\env\Scripts\python.exe setup.py develop && "
+        command += ".\Real-ESRGAN\env\Scripts\pip.exe uninstall torch --yes && "
+        command += ".\Real-ESRGAN\env\Scripts\pip.exe install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117 && "
+        command += "cd .. && deactivate"
         process = call(command, shell=True)
         self.startUpInformationlabel.configure(text="Installation is completed!!! You can continue")
         call('cls' if os.name=='nt' else 'clear', shell=True)
