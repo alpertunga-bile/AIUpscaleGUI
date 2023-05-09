@@ -6,7 +6,7 @@
 
 - Using [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN) repository for upscaling images. 
 - I am using Automatic111 WebUI for Stable Diffusion. Because of my low VRAM I can not upscale my images so I made a GUI for upscaling my outputs. As I can see from the options in WebUI, it is using Real-ESRGAN as default.
-- I have a another repository about prompts. Briefly you can parse prompts from Markdown files, translate your prompts. You can generate datasets, train your prompt generator and generate prompts with it. You can access the repository [here](https://github.com/alpertunga-bile/prompt-markdown-parser).
+- I have another repository about prompts. Briefly you can parse prompts from Markdown files, translate your prompts. You can generate datasets, train your prompt generator and generate prompts with it. You can access the repository [here](https://github.com/alpertunga-bile/prompt-markdown-parser).
 
 ## Updates
 ### Update Date : 27/04/2023
@@ -70,7 +70,7 @@ Folder1
 - You can select FP32 feature.
 
 ## Examples
-- Prompts are generated with [Prompt Markdown Parser](https://github.com/alpertunga-bile/prompt-markdown-parser) project.
+- Prompts are parsed with [Prompt Markdown Parser](https://github.com/alpertunga-bile/prompt-markdown-parser) project.
 - RealESRGAN_x4plus model, x4 scale and face enhancement are used.
 - 512x512 images are created with NeverEndingDreamBakedVAE model, model hash is 64b14b6ca5. CodeFormer is used for face restoration.
 
