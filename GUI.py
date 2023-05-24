@@ -181,14 +181,14 @@ class GUI:
         self.startUpInformationlabel.configure(text="Installing required packages ...")
         print("Installing required packages ...")
         command = ""
-        command += "py -m venv Real-ESRGAN\env && "
-        command += ".\Real-ESRGAN\env\Scripts\\activate && "
+        command += "python -m venv Real-ESRGAN\env && "
+        command += ".\Real-ESRGAN\env\Scripts\\activate.bat && "
         command += ".\Real-ESRGAN\env\Scripts\pip.exe install basicsr facexlib gfpgan && "
         command += ".\Real-ESRGAN\env\Scripts\pip.exe install -r Real-ESRGAN\\requirements.txt && "
         command += "cd Real-ESRGAN && call .\env\Scripts\python.exe setup.py develop && "
-        command += ".\Real-ESRGAN\env\Scripts\pip.exe uninstall torch --yes && "
-        command += ".\Real-ESRGAN\env\Scripts\pip.exe install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117 && "
-        command += "cd .. && deactivate"
+        command += ".\env\Scripts\pip.exe uninstall torch torchvision --yes && "
+        command += ".\env\Scripts\pip.exe install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117 && "
+        command += "cd .. && deactivate.bat"
         process = call(command, shell=True)
         self.startUpInformationlabel.configure(text="Installation is completed!!! You can continue")
         call('cls' if os.name=='nt' else 'clear', shell=True)
