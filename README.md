@@ -10,7 +10,7 @@
 
 ## Updates (DD/MM/YY)
 ### Update Date : 24/05/2023
-- Not using GPU bug is fixed.
+- Not using GPU bug is fixed. Delete Real-ESRGAN folder and click **Startup** button.
 - As a note, if you have encountered with black output, select FP32 option.
 ### Update Date : 27/04/2023
 - Modern GUI style is added with customtkinter
