@@ -188,7 +188,7 @@ class GUI:
         command += "cd Real-ESRGAN && call .\env\Scripts\python.exe setup.py develop && "
         command += ".\env\Scripts\pip.exe uninstall torch torchvision --yes && "
         command += ".\env\Scripts\pip.exe install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117 && "
-        command += "cd .. && deactivate.bat"
+        command += "cd .. && .\Real-ESRGAN\env\Scripts\\deactivate.bat"
         process = call(command, shell=True)
         self.startUpInformationlabel.configure(text="Installation is completed!!! You can continue")
         call('cls' if os.name=='nt' else 'clear', shell=True)

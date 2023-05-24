@@ -8,7 +8,10 @@
 - I am using Automatic111 WebUI for Stable Diffusion. Because of my low VRAM I can not upscale my images so I made a GUI for upscaling my outputs. As I can see from the options in WebUI, it is using Real-ESRGAN as default.
 - I have another repository about prompts. Briefly you can parse prompts from Markdown files, translate your prompts. You can generate datasets, train your prompt generator and generate prompts with it. You can access the repository [here](https://github.com/alpertunga-bile/prompt-markdown-parser).
 
-## Updates
+## Updates (DD/MM/YY)
+### Update Date : 24/05/2023
+- Not using GPU bug is fixed.
+- As a note, if you have encountered with black output, select FP32 option.
 ### Update Date : 27/04/2023
 - Modern GUI style is added with customtkinter
 - Virtual environment automation is added. No need to configure manually. Just run ```python start.py``` command.
@@ -38,6 +41,7 @@
 - After the installation progress, choose your input and output directories.
 - Then select which model and attributes you want to use.
 - After selecting them, press **Initialize** button and wait for **DONE!!!** text to appear under the button or in terminal.
+- [x] If you have encountered with black output, select FP32 option.
 
 ### Folder Selection Note
 - You can choose one folder that includes images or you can choose one folder that includes folders that include images (Hmm?).

@@ -53,8 +53,8 @@ class RunManager:
         call('cls' if os.name=='nt' else 'clear', shell=True)
 
     python_exe = "call Real-ESRGAN\\env\\Scripts\\python.exe"
-    activate_env_command = "call .\Real-ESRGAN\\env\\Scripts\\activate"
-    deactivate_env_command = "call deactivate"
+    activate_env_command = "call .\Real-ESRGAN\\env\\Scripts\\activate.bat"
+    deactivate_env_command = "call .\Real-ESRGAN\\env\\Scripts\\deactivate"
     imageFolders = []
     outputFolder = f"{os.getcwd}\\upscaled"
     modelName = None
