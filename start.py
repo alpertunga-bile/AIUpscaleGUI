@@ -3,7 +3,7 @@ from subprocess import call, DEVNULL
 
 if __name__ == "__main__":
     if(os.path.exists("venv") == False):
-        venvCommand = "py -m venv venv && "
+        venvCommand = "python -m venv venv && "
         venvCommand += ".\\venv\Scripts\\activate && "
         venvCommand += ".\\venv\Scripts\pip.exe install customtkinter && "
         venvCommand += "deactivate"
