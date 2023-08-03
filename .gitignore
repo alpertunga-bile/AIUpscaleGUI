@@ -161,5 +161,8 @@ cython_debug/
 
 input/
 output/
-Real-ESRGAN/
+third-party/
 venv/
+paths.json
+requirements.txt
+venvLog.txt
