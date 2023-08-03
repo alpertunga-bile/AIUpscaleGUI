@@ -7,6 +7,7 @@ import threading
 import subprocess
 import os
 from RunManager import RunManager
+from VenvManager import VenvManager
 
 class GUI:
     startUpInformationlabel = None
@@ -27,6 +28,7 @@ class GUI:
 
     window = None
     runManager = RunManager()
+    venv_manager = VenvManager()
 
     def __init__(self):
         self.inputDirectory = os.getcwd()
@@ -39,6 +41,7 @@ class GUI:
         """
         StartUp Frame Widgets
         """
+
         self.startUpFrame = ctk.CTkFrame(master=self.window)
         self.startUpInformationlabel = ctk.CTkLabel(master=self.startUpFrame, text='')
         startupButton = ctk.CTkButton(
@@ -50,6 +53,7 @@ class GUI:
         self.startUpInformationlabel.pack(side="top")
         startupButton.pack()
         self.startUpFrame.pack(pady=25)
+        
 
         """
         Initialize Frame Widgets
@@ -146,7 +150,7 @@ class GUI:
         self.initializeInfoLabel.configure(text="")
         self.inputDirectory = filedialog.askdirectory(initialdir=self.inputDirectory)
         self.inputDirectoryLabel.configure(text=f"{self.inputDirectory}")
-        self.runManager.GetImageFolder(self.inputDirectory)
+        self.runManager.inputFolder = self.inputDirectory
 
     def ChangeOutputDirectory(self):
         self.outputDirectory = filedialog.askdirectory(mustexist=True, initialdir=os.getcwd())
@@ -154,6 +158,7 @@ class GUI:
         self.runManager.outputFolder = self.outputDirectory
 
     def Initialize(self):
+        self.runManager.venv_manager = self.venv_manager
         self.runManager.modelName = self.modelCombobox.get()
         self.runManager.scale = f"{int(self.scaleSlider.get())}"
         self.runManager.faceEnhance = self.faceCheckbox.get()
@@ -164,34 +169,18 @@ class GUI:
         print("DONE!!!")
 
     def StartUp(self):
-        if os.path.exists("Real-ESRGAN"):
+        if os.path.exists(os.path.join("third-party", "Real-ESRGAN")):
             self.startUpInformationlabel.configure(text="Real-ESRGAN repo is already installed")
             return
 
-        process = subprocess.Popen("git --version", stdout=subprocess.PIPE)
-        streamdata = process.communicate()[0]
+        realesrgan_repokey = "realesrgan"
 
-        if process.returncode != 0:
-            messagebox.showerror(message="There is no Git on your computer or not included in PATH variable, please install it or add to PATH variable and try again")
-            exit(-1)
+        if os.path.exists(os.path.join("third-party", "Real-ESRGAN")) is False:
+            self.venv_manager.CloneRepository("https://github.com/xinntao/Real-ESRGAN.git", realesrgan_repokey, "third-party")
+            self.venv_manager.InstallRequirementsFromRepository(realesrgan_repokey)
+            self.venv_manager.RunScriptInsideRepository(realesrgan_repokey, "setup.py develop")
 
-        self.startUpInformationlabel.configure(text="Cloning repository ...")
-        print("Cloning repository ...")
-        process = call("git clone https://github.com/xinntao/Real-ESRGAN.git", shell=True)
-        self.startUpInformationlabel.configure(text="Installing required packages ...")
-        print("Installing required packages ...")
-        command = ""
-        command += "python -m venv Real-ESRGAN\env && "
-        command += ".\Real-ESRGAN\env\Scripts\\activate.bat && "
-        command += ".\Real-ESRGAN\env\Scripts\pip.exe install basicsr facexlib gfpgan && "
-        command += ".\Real-ESRGAN\env\Scripts\pip.exe install -r Real-ESRGAN\\requirements.txt && "
-        command += "cd Real-ESRGAN && call .\env\Scripts\python.exe setup.py develop && "
-        command += ".\env\Scripts\pip.exe uninstall torch torchvision --yes && "
-        command += ".\env\Scripts\pip.exe install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117 && "
-        command += "cd .. && .\Real-ESRGAN\env\Scripts\\deactivate.bat"
-        process = call(command, shell=True)
         self.startUpInformationlabel.configure(text="Installation is completed!!! You can continue")
-        call('cls' if os.name=='nt' else 'clear', shell=True)
         print("Installation is completed!!! You can continue")
 
     def Loop(self):

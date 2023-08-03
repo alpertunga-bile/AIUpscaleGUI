@@ -1,6 +1,7 @@
 import os
 from tkinter import messagebox
 from subprocess import call
+from VenvManager import VenvManager
 
 class RunManager:
     def GetImageFolder(self, imageFolder):
@@ -24,8 +25,8 @@ class RunManager:
             self.imageFolders[i] = os.path.join(imageFolder, self.imageFolders[i])
 
     def AddCommands(self):
-        start = f'{self.python_exe} Real-ESRGAN\\inference_realesrgan.py -n {self.modelName} -i '
-        end = f"--ext png -s {self.scale}"
+        start = f'-n {self.modelName} -i '
+        end = f"--ext png -s {self.scale} --tile 192"
         
         if self.faceEnhance == 1:
             end = end + " --face_enhance"
@@ -37,8 +38,6 @@ class RunManager:
             tempCommand = f'{start} "{folder}" -o "{self.outputFolder}" {end}'
             self.commands.append(tempCommand)
 
-        self.commands.append(self.deactivate_env_command)
-
     def GetCommandString(self):
         finalCommand = ""
         for command in self.commands:
@@ -47,18 +46,20 @@ class RunManager:
         return finalCommand
 
     def Run(self):
+        self.GetImageFolder(self.inputFolder)
         self.AddCommands()
         call('cls' if os.name=='nt' else 'clear', shell=True)
-        call(self.GetCommandString(), shell=True)
+        for command in self.commands:
+            self.venv_manager.RunScript("third-party/Real-ESRGAN/inference_realesrgan", command)
         call('cls' if os.name=='nt' else 'clear', shell=True)
+        self.imageFolders.clear()
 
-    python_exe = "call Real-ESRGAN\\env\\Scripts\\python.exe"
-    activate_env_command = "call .\Real-ESRGAN\\env\\Scripts\\activate.bat"
-    deactivate_env_command = "call .\Real-ESRGAN\\env\\Scripts\\deactivate"
     imageFolders = []
-    outputFolder = f"{os.getcwd}\\upscaled"
+    inputFolder = None
+    outputFolder = os.path.join(os.getcwd(), "upscaled")
     modelName = None
     scale = "4"
     faceEnhance = 0
     fp32 = 1
-    commands = [activate_env_command]
+    venv_manager : VenvManager = None
+    commands = []
