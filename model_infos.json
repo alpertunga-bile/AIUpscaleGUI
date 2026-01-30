@@ -1,0 +1,32 @@
+{
+    "models": [
+        {
+            "download_url": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth",
+            "supported_scale": 4
+        },
+        {
+            "download_url": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.1/RealESRNet_x4plus.pth",
+            "supported_scale": 4
+        },
+        {
+            "download_url": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.2.4/RealESRGAN_x4plus_anime_6B.pth",
+            "supported_scale": 4
+        },
+        {
+            "download_url": "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.1/RealESRGAN_x2plus.pth",
+            "supported_scale": 2
+        },
+        {
+            "download_url": "https://github.com/Kim2091/Kim2091-Models/releases/download/2x-AnimeSharpV4/2x-AnimeSharpV4_RCAN.safetensors",
+            "supported_scale": 2
+        },
+        {
+            "download_url": "https://github.com/Kim2091/Kim2091-Models/releases/download/2x-AnimeSharpV4/2x-AnimeSharpV4_Fast_RCAN_PU.safetensors",
+            "supported_scale": 2
+        },
+        {
+            "download_url": "https://huggingface.co/Kim2091/UltraSharpV2/resolve/main/4x-UltraSharpV2.safetensors?download=true",
+            "supported_scale": 4
+        }
+    ]
+}
