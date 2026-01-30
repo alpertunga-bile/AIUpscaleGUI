@@ -1,5 +1,5 @@
-from GUI import GUI
+from gui import MainWindow
 
 if __name__ == "__main__":
-    gui = GUI()
+    gui = MainWindow()
     gui.Loop()
