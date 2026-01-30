@@ -33,6 +33,8 @@ class ModelTile:
 
         self.model = model
 
+    @torch.no_grad()
+    @torch.inference_mode()
     def __preprocess(self, img: np.ndarray) -> None:
         img_tensor = torch.from_numpy(np.transpose(img, (2, 0, 1))).to(self.model.dtype)
         self.img = img_tensor.unsqueeze(0).to(torch_device)
@@ -59,6 +61,8 @@ class ModelTile:
                 self.img, (0, self.mod_pad_w, 0, self.mod_pad_h), "reflect"
             )
 
+    @torch.no_grad()
+    @torch.inference_mode()
     def __tile_process(self):
         batch, channel, height, width = self.img.shape
 
@@ -100,8 +104,7 @@ class ModelTile:
 
                 # upscale tile
                 try:
-                    with torch.no_grad():
-                        output_tile = self.model(input_tile)
+                    output_tile = self.model(input_tile)
                 except RuntimeError as error:
                     print("Error", error)
 
@@ -129,6 +132,8 @@ class ModelTile:
                 tqdm_bar.update(1)
         tqdm_bar.close()
 
+    @torch.no_grad()
+    @torch.inference_mode()
     def __postprocess(self) -> torch.Tensor:
         if self.mod_scale is not None:
             _, _, h, w = self.output.size()

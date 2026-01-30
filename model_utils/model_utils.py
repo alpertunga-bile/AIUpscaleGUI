@@ -69,4 +69,6 @@ def load_model(
     except:
         torch.compile(model)
 
+    model.eval()
+
     return (model, "", True)

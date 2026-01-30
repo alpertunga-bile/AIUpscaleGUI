@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import utils
+import threading
 
 from .startup_widget import StartupWidget
 from .seldir_widget import SelectDirectoryWidget
@@ -52,7 +53,7 @@ class MainWindow:
         self.initializeInfoLabel = ctk.CTkLabel(master=self.window, text="")
         self.initializeInfoLabel.pack()
 
-    def start_upscale(self):
+    def __upscale(self):
         model_name = self.options_widget.model_combobox.get()
         input_folder = self.seldir_widget.input_dir
         output_folder = self.seldir_widget.output_dir
@@ -66,7 +67,12 @@ class MainWindow:
         )
 
         utils.check_and_install_model(model_name)
-        utils.upscale_images(input_folder, info)
+        utils.upscale_images(input_folder, info, self.initializeInfoLabel)
+
+        self.initializeInfoLabel.configure(text="DONE !!!")
+
+    def start_upscale(self):
+        threading.Thread(target=self.__upscale).start()
 
     def Loop(self):
         self.window.mainloop()
