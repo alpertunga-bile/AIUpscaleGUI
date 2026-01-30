@@ -1,3 +1,6 @@
-realesrgan
 customtkinter
-torch torchvision --index-url https://download.pytorch.org/whl/cu118
+tqdm
+requests
+opencv-python
+torch torchvision --index-url https://download.pytorch.org/whl/cu130
+spandrel
