@@ -111,11 +111,15 @@ def upscale_images(input_folder: str, info: UpscaleInfo, label: ctk.CTkLabel) ->
 
     bar = tqdm.tqdm(total=total_files, desc="Upscaling Images")
     for index, file in enumerate(files):
-        label.configure(text=f"Upscaling {index} / {total_files}")
+        temp_info = UpscaleInfo(
+            info.model_path, info.input_path, info.output_path, info.data_type
+        )
 
-        info.input_path = str(file.absolute().resolve())
-        info.output_path = os.path.join(info.output_path, file.name)
-        ret_val = upscale_image(info)
+        label.configure(text=f"Upscaling {file} | {index} / {total_files}")
+
+        temp_info.input_path = str(file.absolute().resolve())
+        temp_info.output_path = os.path.join(info.output_path, file.name)
+        ret_val = upscale_image(temp_info)
 
         if not ret_val[1]:
             print(ret_val[0])
