@@ -7,12 +7,18 @@ import requests
 import tqdm
 import json
 import pathlib
+import customtkinter as ctk
 
 UpscalerInfo = namedtuple(
     "UpscalerInfo", ["download_path", "supported_scaling", "filetype"]
 )
 
 upscaler_infos: dict[str, UpscalerInfo] = {}
+
+
+def get_upscaler_names() -> list[str]:
+    set_upscaler_infos()
+    return [*upscaler_infos.keys()]
 
 
 def set_upscaler_infos() -> None:
@@ -92,7 +98,7 @@ def upscale_image(info: UpscaleInfo) -> tuple[str, bool]:
     return ("", True)
 
 
-def upscale_images(input_folder: str, info: UpscaleInfo) -> None:
+def upscale_images(input_folder: str, info: UpscaleInfo, label: ctk.CTkLabel) -> None:
     path = pathlib.Path(input_folder)
     files: list[pathlib.Path] = []
 
@@ -101,10 +107,18 @@ def upscale_images(input_folder: str, info: UpscaleInfo) -> None:
     files.extend(path.glob("*.png"))
     files.extend(path.glob("*.webp"))
 
-    for file in tqdm.tqdm(files, desc="Upscaling Images"):
+    total_files = len(files)
+
+    bar = tqdm.tqdm(total=total_files, desc="Upscaling Images")
+    for index, file in enumerate(files):
+        label.configure(text=f"Upscaling {index} / {total_files}")
+
         info.input_path = str(file.absolute().resolve())
         info.output_path = os.path.join(info.output_path, file.name)
         ret_val = upscale_image(info)
 
         if not ret_val[1]:
             print(ret_val[0])
+
+        bar.update()
+    bar.close()

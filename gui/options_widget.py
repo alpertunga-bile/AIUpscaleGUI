@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import tkinter as tk
+import utils
 
 from .base_widget import BaseWidget
 
@@ -24,15 +25,7 @@ class OptionsWidget(BaseWidget):
             width=300,
             variable=self.model_string,
             state="readonly",
-            values=[
-                "RealESRGAN_x4plus",
-                "RealESRNet_x4plus",
-                "RealESRGAN_x4plus_anime_6B",
-                "RealESRGAN_x2plus",
-                "2x-AnimeSharpV4_RCAN",
-                "2x-AnimeSharpV4_Fast_RCAN_PU",
-                "UltraSharpV2",
-            ],
+            values=utils.get_upscaler_names(),
         )
         self.model_name_label = ctk.CTkLabel(main_frame, text="Model Name")
 

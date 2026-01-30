@@ -1,9 +1,4 @@
-import tkinter as tk
-from tkinter import filedialog
 import customtkinter as ctk
-import threading
-import os
-import os.path
 import utils
 
 from .startup_widget import StartupWidget

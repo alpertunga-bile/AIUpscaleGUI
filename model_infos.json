@@ -27,6 +27,26 @@
         {
             "download_url": "https://huggingface.co/Kim2091/UltraSharpV2/resolve/main/4x-UltraSharpV2.safetensors?download=true",
             "supported_scale": 4
+        },
+        {
+            "download_url": "https://github.com/TNTwise/Models/releases/download/2x_ModernSpanimationV1/2x_ModernSpanimationV1.pth",
+            "supported_scale": 2
+        },
+        {
+            "download_url": "https://github.com/Sirosky/Upscale-Hub/releases/download/Ani4K-v2/2x_Ani4Kv2_G6i2_Compact_107500.pth",
+            "supported_scale": 2
+        },
+        {
+            "download_url": "https://github.com/Phhofm/models/releases/download/4xDRCT-mssim-pretrains/4xmssim_drct-l_pretrain.pth",
+            "supported_scale": 4
+        },
+        {
+            "download_url": "https://github.com/Phhofm/models/releases/download/4xDRCT-mssim-pretrains/4xmssim_drct_pretrain.pth",
+            "supported_scale": 4
+        },
+        {
+            "download_url": "https://github.com/Phhofm/models/releases/download/4xSPAN_pretrains/4xmssim_span_pretrain.pth",
+            "supported_scale": 4
         }
     ]
 }
