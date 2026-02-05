@@ -6,7 +6,7 @@ class BaseWidget:
         pass
 
     def bind(self, main_frame: ctk.CTkFrame) -> None:
-        NotImplementedError()
+        raise NotImplementedError
 
     def place_on_grid(self) -> None:
-        NotImplementedError()
+        raise NotImplementedError
