@@ -21,8 +21,7 @@ def set_model_dtype(
     torch_dev = get_torch_device()
 
     if torch_dev == "cpu":
-        model.float().cpu()
-        return model
+        return model.float().cpu()
 
     is_bf16 = (
         torch.cuda.is_bf16_supported()
@@ -32,7 +31,7 @@ def set_model_dtype(
 
     is_fp16 = (
         torch.cuda.is_bf16_supported()
-        and model.supports_bfloat16
+        and model.supports_half
         and data_type == "float16"
     )
 
@@ -43,21 +42,19 @@ def set_model_dtype(
     else:
         model.float()
 
-    model.cuda()
-
-    return model
+    return model.cuda()
 
 
 def load_model(
     info: UpscaleInfo, supported_scale: int
-) -> tuple[spandrel.ImageModelDescriptor | None, str, bool]:
+) -> tuple[spandrel.ImageModelDescriptor | None, str]:
     try:
         model = spandrel.ModelLoader().load_from_file(info.model_path)
     except ValueError:
         extension = info.model_path.split(".")[1]
-        return (None, f"{extension} is not supported", False)
+        return (None, f"{extension} is not supported")
     except spandrel.UnsupportedModelError:
-        return (None, f"{info.model_path} architecture is not supported", False)
+        return (None, f"{info.model_path} architecture is not supported")
 
     assert isinstance(model, spandrel.ImageModelDescriptor)
 
@@ -71,4 +68,4 @@ def load_model(
 
     model.eval()
 
-    return (model, "", True)
+    return (model, "")
