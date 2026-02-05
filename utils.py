@@ -46,7 +46,7 @@ def check_and_install_model(model_name: str) -> None:
     set_upscaler_infos()
     info = upscaler_infos[model_name]
 
-    output_path = os.path.join("models", f"{model_name}.{info.filetype}")
+    output_path = os.path.join("models", model_name + info.filetype)
 
     if os.path.exists(output_path):
         print(f"{output_path} exists, continue ...")
@@ -75,7 +75,7 @@ def check_and_install_model(model_name: str) -> None:
 def upscale_image(info: UpscaleInfo) -> tuple[str, bool]:
     model_info = upscaler_infos[info.model_path]
 
-    info.model_path = f"{os.path.join('models', info.model_path)}.{model_info.filetype}"
+    info.model_path = os.path.join("models", info.model_path) + model_info.filetype
 
     model, error = load_model(info, model_info.supported_scaling)
 
