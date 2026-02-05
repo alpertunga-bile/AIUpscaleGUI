@@ -34,9 +34,10 @@ def set_upscaler_infos() -> None:
         url = str(model["download_url"])
         scale = int(model["supported_scale"])
 
-        infos = url.split("/")[-1].split(".")
-        model_name = infos[0]
-        extension = infos[1]
+        url_path = pathlib.Path(url)
+
+        model_name = url_path.stem
+        extension = url_path.suffix
 
         upscaler_infos[model_name] = UpscalerInfo(url, scale, extension)
 
@@ -76,10 +77,10 @@ def upscale_image(info: UpscaleInfo) -> tuple[str, bool]:
 
     info.model_path = f"{os.path.join('models', info.model_path)}.{model_info.filetype}"
 
-    model, error, is_success = load_model(info, model_info.supported_scaling)
+    model, error = load_model(info, model_info.supported_scaling)
 
-    if not is_success or model is None:
-        return (error, is_success)
+    if model is None:
+        return (error, False)
 
     input_image = cv2.imread(info.input_path, cv2.IMREAD_COLOR)
 
@@ -101,28 +102,28 @@ def upscale_image(info: UpscaleInfo) -> tuple[str, bool]:
 def upscale_images(input_folder: str, info: UpscaleInfo, label: ctk.CTkLabel) -> None:
     path = pathlib.Path(input_folder)
     files: list[pathlib.Path] = []
+    supported_exts = ["jpeg", "jpg", "png", "webp"]
 
-    files.extend(path.glob("*.jpeg"))
-    files.extend(path.glob("*.jpg"))
-    files.extend(path.glob("*.png"))
-    files.extend(path.glob("*.webp"))
+    for ext in supported_exts:
+        files.extend(path.glob(f"*.{ext}"))
 
     total_files = len(files)
 
     bar = tqdm.tqdm(total=total_files, desc="Upscaling Images")
     for index, file in enumerate(files):
-        temp_info = UpscaleInfo(
-            info.model_path, info.input_path, info.output_path, info.data_type
-        )
-
         label.configure(text=f"Upscaling {file} | {index} / {total_files}")
 
-        temp_info.input_path = str(file.absolute().resolve())
-        temp_info.output_path = os.path.join(info.output_path, file.name)
-        ret_val = upscale_image(temp_info)
+        temp_info = UpscaleInfo(
+            info.model_path,
+            str(file.absolute().resolve()),
+            os.path.join(info.output_path, file.name),
+            info.data_type,
+        )
 
-        if not ret_val[1]:
-            print(ret_val[0])
+        error, result = upscale_image(temp_info)
+
+        if not result:
+            print(error)
 
         bar.update()
     bar.close()
