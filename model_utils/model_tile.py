@@ -33,8 +33,6 @@ class ModelTile:
 
         self.model = model
 
-    @torch.no_grad()
-    @torch.inference_mode()
     def __preprocess(self, img: np.ndarray) -> None:
         img_tensor = torch.from_numpy(np.transpose(img, (2, 0, 1))).to(self.model.dtype)
         self.img = img_tensor.unsqueeze(0).to(torch_device)
@@ -132,8 +130,6 @@ class ModelTile:
                 tqdm_bar.update(1)
         tqdm_bar.close()
 
-    @torch.no_grad()
-    @torch.inference_mode()
     def __postprocess(self) -> torch.Tensor:
         if self.mod_scale is not None:
             _, _, h, w = self.output.size()
@@ -154,8 +150,6 @@ class ModelTile:
             ]
         return self.output
 
-    @torch.no_grad()
-    @torch.inference_mode()
     def upscale(self, img: np.ndarray) -> np.ndarray:
         # h_input, w_input = img.shape[0:2]
         # img: numpy
